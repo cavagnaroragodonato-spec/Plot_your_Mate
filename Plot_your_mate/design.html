@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taller · Plot your Mate</title>
+  <meta name="description" content="Armá la plantilla de stickers para tu termo, mate o compu a medida y descargala lista para imprimir.">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..900,0..100,0..1;1,9..144,400..900,0..100,0..1&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Caveat:wght@700&family=Bagel+Fat+One&family=Shrikhand&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                   "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+  </script>
+</head>
+<body>
+  <header class="studio-top">
+    <a class="logo" href="index.html">Plot your <span>Mate</span></a>
+    <ol class="steps" id="steps">
+      <li data-step="welcome">Bienvenida</li>
+      <li data-step="choose">Elemento</li>
+      <li data-step="measure">Medidas</li>
+      <li data-step="editor">Plantilla</li>
+    </ol>
+    <a class="btn small ghost" href="index.html">← Inicio</a>
+  </header>
+
+  <!-- ============ 1. BIENVENIDA ============ -->
+  <section class="stage" id="stage-welcome">
+    <div class="wrap welcome">
+      <div>
+        <span class="kicker" id="welcome-kicker">bienvenido/a al taller</span>
+        <h1 class="riso">Tu termo,<br>tus <em style="color:var(--pink)">historias</em>.</h1>
+        <p class="lead">Plot your Mate es un taller para diseñar los stickers de tu termo, tu mate, tu compu o lo que quieras. Subís tus fotos, frases y dibujos, los acomodás sobre una plantilla con las medidas exactas de tu objeto y te llevás un archivo listo para imprimir.</p>
+        <div class="welcome-actions">
+          <button class="btn primary" id="start-btn">Empezar a diseñar →</button>
+          <span class="kicker" id="welcome-item"></span>
+        </div>
+      </div>
+      <div class="how">
+        <div class="how-card"><h3>Elegí qué vas a plotear</h3><p>Termo, mate, vaso, botella, compu, celu o cuaderno.</p></div>
+        <div class="how-card"><h3>Poné las medidas</h3><p>Usá una marca conocida o medí el tuyo con un centímetro.</p></div>
+        <div class="how-card"><h3>Tirá tus plots</h3><p>Subí imágenes, movelas, rotalas y escalalas. Te avisamos cuando algo está centrado, alineado o bien distribuido.</p></div>
+        <div class="how-card"><h3>Descargá e imprimí</h3><p>PNG a 300 DPI o PDF en tamaño real, para llevar a la imprenta de stickers.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 2. ELEGIR ELEMENTO ============ -->
+  <section class="stage" id="stage-choose">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="kicker">paso 1 de 3</span><h2>¿Qué vas a plotear?</h2></div>
+        <button class="btn ghost small" data-goto="welcome">← Volver</button>
+      </div>
+      <div class="items" id="items"></div>
+    </div>
+  </section>
+
+  <!-- ============ 3. MEDIDAS ============ -->
+  <section class="stage" id="stage-measure">
+    <div class="wrap">
+      <div class="section-head">
+        <div><span class="kicker">paso 2 de 3 · <span id="m-item-name"></span></span><h2>Las medidas de tu <span id="m-item-name2"></span></h2></div>
+        <button class="btn ghost small" data-goto="choose">← Cambiar elemento</button>
+      </div>
+      <div class="measure">
+        <div class="panel">
+          <h3>Recomendados</h3>
+          <p class="hint">Medidas aproximadas de la zona ploteable. Si tenés el objeto a mano, medilo igual para confirmar.</p>
+          <div class="presets" id="presets"></div>
+          <div class="or">o poné tus medidas</div>
+          <div class="fields" id="custom-fields"></div>
+          <div class="tipbox" id="tipbox"></div>
+        </div>
+        <div class="preview-box">
+          <canvas class="tpl-preview" id="tpl-preview" width="800" height="600"></canvas>
+          <div class="tpl-meta" id="tpl-meta"></div>
+        </div>
+      </div>
+      <div class="measure-actions">
+        <span></span>
+        <button class="btn pink" id="to-editor">Generar mi plantilla →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. EDITOR ============ -->
+  <section class="stage" id="stage-editor">
+    <div class="editor">
+      <aside class="editor-side">
+        <div class="side-head">
+          <span class="kicker" id="ed-tpl-label"></span>
+          <h2>Add your <i>plots</i></h2>
+        </div>
+        <label class="drop" id="drop">
+          <input type="file" id="file-input" accept="image/*,.svg" multiple hidden>
+          <b>Soltá o elegí imágenes</b>
+          <small>PNG, JPG, SVG, WEBP… las que quieras</small>
+        </label>
+        <div class="sec-chips" id="sec-chips"></div>
+        <p class="side-note">Elegí una sección antes de subir para tenerlo ordenado (amigos, familia, viajes…). Es opcional.</p>
+        <div class="library" id="library"></div>
+        <div class="side-foot">
+          <button class="btn small" id="organize-btn" title="Agrupa las imágenes en zonas según su sección">✦ Ordenar por secciones</button>
+          <div style="display:flex; gap:8px">
+            <button class="btn small ghost" id="save-project">Guardar proyecto</button>
+            <label class="btn small ghost">Abrir<input type="file" id="open-project" accept=".json,.plotmate" hidden></label>
+          </div>
+        </div>
+      </aside>
+
+      <div class="editor-main">
+        <div class="toolbar" id="toolbar">
+          <div class="tb-group">
+            <button class="tool" data-act="undo" data-tip="Deshacer (Ctrl+Z)"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+            <button class="tool" data-act="redo" data-tip="Rehacer (Ctrl+Y)"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
+          </div>
+          <div class="tb-group">
+            <button class="tool" data-act="text" data-tip="Agregar frase (T)"><svg viewBox="0 0 24 24"><path d="M5 6V4h14v2M12 4v16M9 20h6"/></svg></button>
+          </div>
+          <div class="tb-group">
+            <button class="tool" data-act="al-left" data-tip="Alinear a la izquierda"><svg viewBox="0 0 24 24"><path d="M4 3v18"/><rect x="7" y="6" width="12" height="4" rx="1"/><rect x="7" y="14" width="7" height="4" rx="1"/></svg></button>
+            <button class="tool" data-act="al-cx" data-tip="Centrar horizontal"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><rect x="5" y="6" width="14" height="4" rx="1"/><rect x="8" y="14" width="8" height="4" rx="1"/></svg></button>
+            <button class="tool" data-act="al-right" data-tip="Alinear a la derecha"><svg viewBox="0 0 24 24"><path d="M20 3v18"/><rect x="5" y="6" width="12" height="4" rx="1"/><rect x="10" y="14" width="7" height="4" rx="1"/></svg></button>
+            <button class="tool" data-act="al-top" data-tip="Alinear arriba"><svg viewBox="0 0 24 24"><path d="M3 4h18"/><rect x="6" y="7" width="4" height="12" rx="1"/><rect x="14" y="7" width="4" height="7" rx="1"/></svg></button>
+            <button class="tool" data-act="al-cy" data-tip="Centrar vertical"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="8" width="4" height="8" rx="1"/></svg></button>
+            <button class="tool" data-act="al-bottom" data-tip="Alinear abajo"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="6" y="5" width="4" height="12" rx="1"/><rect x="14" y="10" width="4" height="7" rx="1"/></svg></button>
+          </div>
+          <div class="tb-group">
+            <button class="tool" data-act="dist-h" data-tip="Distribuir horizontal (2+)"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="8" rx="1"/><rect x="17" y="8" width="4" height="8" rx="1"/></svg></button>
+            <button class="tool" data-act="dist-v" data-tip="Distribuir vertical (2+)"><svg viewBox="0 0 24 24"><rect x="8" y="3" width="8" height="4" rx="1"/><rect x="8" y="10" width="8" height="4" rx="1"/><rect x="8" y="17" width="8" height="4" rx="1"/></svg></button>
+            <button class="tool" data-act="radial" data-tip="Distribuir en círculo"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-dasharray="2 3"/><circle cx="12" cy="4" r="2"/><circle cx="19" cy="15" r="2"/><circle cx="5" cy="15" r="2"/></svg></button>
+            <button class="tool" data-act="pack" data-tip="Acomodar todo en grilla"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg></button>
+          </div>
+          <div class="tb-group">
+            <button class="tool" data-act="up" data-tip="Traer adelante"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button>
+            <button class="tool" data-act="down" data-tip="Mandar atrás"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></button>
+            <button class="tool" data-act="dup" data-tip="Duplicar (Ctrl+D)"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button>
+            <button class="tool" data-act="flip" data-tip="Espejar"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M8 7L3 12l5 5V7zM16 7l5 5-5 5V7z"/></svg></button>
+            <button class="tool" data-act="del" data-tip="Borrar (Supr)"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>
+          </div>
+          <div class="tb-group">
+            <button class="tool on" data-act="snap" data-tip="Guías inteligentes e imán"><svg viewBox="0 0 24 24"><path d="M6 3v8a6 6 0 0 0 12 0V3h-4v8a2 2 0 0 1-4 0V3z"/><path d="M6 7h4M14 7h4"/></svg></button>
+            <button class="tool" data-act="zones" data-tip="Ver zonas de secciones"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16" stroke-dasharray="2 2"/></svg></button>
+          </div>
+          <div class="tb-group">
+            <button class="tool" data-act="zoom-out" data-tip="Alejar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M8 11h6M20 20l-4-4"/></svg></button>
+            <span class="zoom-val" id="zoom-val">100%</span>
+            <button class="tool" data-act="zoom-in" data-tip="Acercar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M8 11h6M11 8v6M20 20l-4-4"/></svg></button>
+            <button class="tool" data-act="fit" data-tip="Ajustar a la pantalla"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+          </div>
+          <span class="tb-spacer"></span>
+          <button class="btn small" id="preview-btn" title="Ver cómo queda en 3D">◐ 3D</button>
+          <button class="btn small primary" id="export-btn">↓ Descargar</button>
+        </div>
+
+        <div class="canvas-wrap" id="canvas-wrap">
+          <canvas id="editor-canvas"></canvas>
+          <div class="empty-msg" id="empty-msg"><b>Tu plantilla está lista</b>Subí imágenes desde la izquierda o arrastralas directo acá.</div>
+          <div class="hints" id="hints"></div>
+          <div class="props" id="props"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exportar -->
+  <div class="modal" id="export-modal" role="dialog" aria-modal="true" aria-labelledby="exp-title">
+    <div class="modal-card">
+      <h3 id="exp-title">Descargar plantilla</h3>
+      <p class="hint" style="color:var(--ink-2)">El archivo sale en tamaño real, listo para mandar a imprimir como sticker o vinilo.</p>
+      <div class="fields">
+        <div class="field"><label>Formato</label><div class="inp"><select id="exp-format"><option value="png">PNG (imagen)</option><option value="pdf">PDF (tamaño real)</option></select></div></div>
+        <div class="field"><label>Calidad</label><div class="inp"><select id="exp-dpi"><option value="150">150 DPI · liviano</option><option value="300" selected>300 DPI · imprenta</option><option value="600">600 DPI · máxima</option></select></div></div>
+      </div>
+      <label class="check"><input type="checkbox" id="exp-cut" checked> Incluir línea de corte</label>
+      <label class="check"><input type="checkbox" id="exp-bleed"> Agregar 3 mm de sangrado (recomendado si el fondo tiene color)</label>
+      <label class="check"><input type="checkbox" id="exp-sheet"> Además, descargar los stickers sueltos en una plancha A4</label>
+      <div class="export-info" id="exp-info"></div>
+      <div class="actions">
+        <button class="btn ghost" data-close>Cancelar</button>
+        <button class="btn primary" id="exp-go">Descargar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista 3D -->
+  <div class="modal" id="preview-modal" role="dialog" aria-modal="true" aria-labelledby="pv-title">
+    <div class="modal-card wide">
+      <h3 id="pv-title">Así queda en tu <span id="pv-item"></span></h3>
+      <p class="hint" style="color:var(--ink-2); margin-top:0">Arrastrá para girarlo. Es una vista aproximada.</p>
+      <canvas id="preview3d"></canvas>
+      <div class="actions"><button class="btn" data-close>Seguir editando</button></div>
+    </div>
+  </div>
+
+  <!-- Nueva sección -->
+  <div class="modal" id="section-modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <h3>Nueva sección</h3>
+      <div class="field"><label>Nombre</label><div class="inp"><input id="sec-name" maxlength="24" placeholder="Ej: Facultad, Mascotas, Recitales"></div></div>
+      <div class="actions"><button class="btn ghost" data-close>Cancelar</button><button class="btn primary" id="sec-add">Agregar</button></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script type="module" src="js/design.js"></script>
+</body>
+</html>

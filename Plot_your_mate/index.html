@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plot your Mate</title>
+  <meta name="description" content="Diseñá los stickers para tu termo, mate, compu o lo que quieras y descargá la plantilla a medida para imprimir.">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..900,0..100,0..1;1,9..144,400..900,0..100,0..1&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+                   "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+  </script>
+</head>
+<body class="home">
+  <canvas id="ring-canvas" aria-hidden="true"></canvas>
+
+  <div class="home-corner">
+    <span class="kicker">taller de stickers · v1</span>
+    <span class="stamp">hecho<br>a medida<br>★</span>
+  </div>
+
+  <main class="home-center">
+    <div>
+      <span class="kicker">diseñá · medí · ploteá</span>
+      <h1 class="riso">Plot your <em>Mate</em></h1>
+      <p class="sub">Pasá el cursor por el círculo, frená lo que quieras plotear y hacé click para diseñar tus stickers a medida.</p>
+      <a class="btn dark cta" href="design.html">Entrar al taller →</a>
+    </div>
+  </main>
+
+  <div class="ring-label" id="ring-label"></div>
+
+  <nav class="home-foot" id="home-foot" aria-label="Elegí qué plotear"></nav>
+
+  <script type="module" src="js/ring.js"></script>
+</body>
+</html>
